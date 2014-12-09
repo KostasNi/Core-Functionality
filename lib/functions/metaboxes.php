@@ -49,8 +49,8 @@ add_filter( 'cmb_meta_boxes' , 'be_metaboxes' );
  */
   
 function be_initialize_cmb_meta_boxes() {
-	if ( !class_exists( 'cmb_Meta_Box' ) ) {
-		require_once( BE_DIR . '/lib/metabox/init.php' );
+	if ( file_exists( CF_DIR . '/lib/cmb2/init.php' ) ) {
+		require_once( BE_DIR . '/lib/CMB2/init.php' );
 	}
 }
 add_action( 'init', 'be_initialize_cmb_meta_boxes', 9999 );

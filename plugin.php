@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Core Functionality
+ * Plugin Name: Website Core Functionality
  * Plugin URI: https://github.com/billerickson/Core-Functionality
  * Description: This contains all your site's core functionality so that it is theme independent.
- * Version: 1.1.0
- * Author: Bill Erickson
- * Author URI: http://www.billerickson.net
+ * Version: 1.0.0
+ * Author: Kostas Nicolacopoulos
+ * Author URI: http://kostasni.com
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU 
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume 

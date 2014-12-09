@@ -19,35 +19,45 @@
  */
 
 function be_register_rotator_post_type() {
+
+	$slug = 'book';
+	$name = 'Books';
+	$singular_name = 'Book';
 	$labels = array(
-		'name' => 'Rotator Items',
-		'singular_name' => 'Rotator Item',
-		'add_new' => 'Add New',
-		'add_new_item' => 'Add New Rotator Item',
-		'edit_item' => 'Edit Rotator Item',
-		'new_item' => 'New Rotator Item',
-		'view_item' => 'View Rotator Item',
-		'search_items' => 'Search Rotator Items',
-		'not_found' =>  'No rotator items found',
-		'not_found_in_trash' => 'No rotator items found in trash',
-		'parent_item_colon' => '',
-		'menu_name' => 'Rotator'
+		'name'                => $name, 'Post Type General Name',
+		'singular_name'       => $singular_name, 'Post Type Singular Name',
+		'menu_name'           => $name,
+		'parent_item_colon'   => sprintf( 'Parent %s:', $singular_name ),
+		'all_items'           => 'All ' . $name,
+		'view_item'           => 'View ' . $singular_name,
+		'add_new_item'        => 'Add New ' . $singular_name,
+		'add_new'             => 'New ' . $singular_name,
+		'edit_item'           => 'Edit ' . $singular_name,
+		'update_item'         => 'Update ' . $singular_name,
+		'search_items'        => 'Search ' . strtolower( $name ),
+		'not_found'           => sprintf( 'No %s found', strtolower( $name ) ),
+		'not_found_in_trash'  => sprintf( 'No %s found in Trash', strtolower( $name ) ),
 	);
-	
 	$args = array(
-		'labels' => $labels,
-		'public' => true,
-		'publicly_queryable' => true,
-		'show_ui' => true, 
-		'show_in_menu' => true, 
-		'query_var' => true,
-		'rewrite' => true,
-		'capability_type' => 'post',
-		'has_archive' => false, 
-		'hierarchical' => false,
-		'menu_position' => null,
-		'supports' => array('title','thumbnail','excerpt')
-	); 
+		'description'         => 'Book post type description',
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'author' ),
+		'taxonomies'          => array( 'genre' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		//'menu_icon'           => '',
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'post',
+	);
+
 
 	register_post_type( 'rotator', $args );
 }
