@@ -7,24 +7,11 @@
  * @return string        Directory with optional path appended
  */
 function cmb2_dir( $path = '' ) {
-	return wp_normalize_path( trailingslashit( dirname( __FILE__ ) ) . $path );
-}
-
-if ( ! function_exists( 'wp_normalize_path' ) ) {
-	/**
-	 * Normalize a filesystem path.
-	 *
-	 * Replaces backslashes with forward slashes for Windows systems, and ensures
-	 * no duplicate slashes exist.
-	 * Available in WordPress 3.9.0
-	 *
-	 * @since  2.0.0
-	 * @param  string $path Path to normalize.
-	 * @return string       Normalized path.
-	 */
-	function wp_normalize_path( $path ) {
-		return preg_replace( '|/+|','/', str_replace( '\\', '/', $path ) );
+	static $cmb2_dir = null;
+	if ( is_null( $cmb2_dir ) ) {
+		$cmb2_dir = trailingslashit( dirname( __FILE__ ) );
 	}
+	return $cmb2_dir . $path;
 }
 
 require_once cmb2_dir( 'includes/helper-functions.php' );
@@ -101,6 +88,7 @@ class CMB2 {
 		'cmb_styles'   => true, // Include cmb bundled stylesheet
 		'fields'       => array(),
 		'hookup'       => true,
+		'closed'       => false, // Default to metabox being closed?
 		'new_user_section' => 'add-new-user', // or 'add-existing-user'
 	);
 
@@ -297,8 +285,8 @@ class CMB2 {
 		<div class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'. $field_group->count() .'">
 
 			<button '. $remove_disabled .'data-selector="'. $field_group->id() .'_repeat" class="dashicons-before dashicons-no-alt cmb-remove-group-row"></button>
-			<div class="handlediv" title="' . __( 'Click to toggle', 'cmb2' ) . '"><br></div>
-			<h3 class="cmb-group-title"><span>'. $field_group->replace_hash( $field_group->options( 'group_title' ) ) .'</span></h3>
+			<div class="cmbhandle" title="' . __( 'Click to toggle', 'cmb2' ) . '"><br></div>
+			<h3 class="cmb-group-title cmbhandle-title"><span>'. $field_group->replace_hash( $field_group->options( 'group_title' ) ) .'</span></h3>
 
 			<div class="inside cmb-td cmb-nested cmb-field-list">';
 				// Loop and render repeatable group fields

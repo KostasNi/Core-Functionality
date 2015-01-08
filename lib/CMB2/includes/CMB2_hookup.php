@@ -224,8 +224,24 @@ class CMB2_hookup {
 		}
 
 		foreach ( $this->cmb->prop( 'object_types' ) as $page ) {
+
+			if ( $this->cmb->prop( 'closed' ) ) {
+				add_filter( "postbox_classes_{$page}_{$this->cmb->cmb_id}", array( $this, 'close_metabox_class' ) );
+			}
+
 			add_meta_box( $this->cmb->cmb_id, $this->cmb->prop( 'title' ), array( $this, 'post_metabox' ), $page, $this->cmb->prop( 'context' ), $this->cmb->prop( 'priority' ) ) ;
 		}
+	}
+
+	/**
+	 * Add 'closed' class to metabox
+	 * @since  2.0.0
+	 * @param  array  $classes Array of classes
+	 * @return array           Modified array of classes
+	 */
+	public function close_metabox_class( $classes ) {
+		$classes[] = 'closed';
+		return $classes;
 	}
 
 	/**
@@ -348,8 +364,11 @@ class CMB2_hookup {
 	 * @since  2.0.0
 	 */
 	public static function enqueue_cmb_css() {
-		CMB2_hookup::register_scripts();
+		if ( ! apply_filters( 'cmb2_enqueue_css', true ) ) {
+			return false;
+		}
 
+		CMB2_hookup::register_scripts();
 		return wp_enqueue_style( 'cmb2-styles' );
 	}
 
@@ -358,6 +377,10 @@ class CMB2_hookup {
 	 * @since  2.0.0
 	 */
 	public static function enqueue_cmb_js() {
+		if ( ! apply_filters( 'cmb2_enqueue_js', true ) ) {
+			return false;
+		}
+
 		CMB2_hookup::register_scripts();
 		wp_enqueue_media();
 		return wp_enqueue_script( 'cmb2-scripts' );

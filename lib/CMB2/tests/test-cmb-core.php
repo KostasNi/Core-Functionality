@@ -64,6 +64,7 @@ class CMB2_Core_Test extends CMB2_Test {
 			'cmb_styles'       => 1,
 			'fields'           => array(),
 			'hookup'           => 1,
+			'closed'           => false,
 			'new_user_section' => 'add-new-user',
 			'show_on'          => array(),
 		);
@@ -79,6 +80,21 @@ class CMB2_Core_Test extends CMB2_Test {
 		add_option( $this->options_cmb->cmb_id, $this->opt_set );
 
 		$this->post_id = $this->factory->post->create();
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+	}
+
+	public function test_cmb2_has_version_number() {
+		$this->assertTrue( defined( 'CMB2_VERSION' ) );
+	}
+
+	/**
+	 * @expectedException WPDieException
+	 */
+	public function test_cmb2_die_with_no_id() {
+		$cmb = new CMB2( array() );
 	}
 
 	/**
@@ -142,7 +158,7 @@ class CMB2_Core_Test extends CMB2_Test {
 	}
 
 	public function test_cmb2_print_metabox_form() {
-		$form = '
+		$expected_form = '
 		<form class="cmb-form" method="post" id="'. $this->cmb_id .'" enctype="multipart/form-data" encoding="multipart/form-data">
 			<input type="hidden" name="object_id" value="'. $this->post_id .'">
 			'. wp_nonce_field( $this->cmb->nonce(), $this->cmb->nonce(), false, false ) .'
@@ -171,7 +187,7 @@ class CMB2_Core_Test extends CMB2_Test {
 
 		$form_get = cmb2_get_metabox_form( $this->cmb_id, $this->post_id );
 
-		$this->assertEquals( $this->clean_string( $form_get ), $this->clean_string( $form ) );
+		$this->assertHTMLstringsAreEqual( $expected_form, $form_get );
 	}
 
 	public function cmb_before_row( $field_args, $field ) {

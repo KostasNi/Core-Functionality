@@ -26,7 +26,7 @@ define( 'BE_DIR', dirname( __FILE__ ) );
 //include_once( BE_DIR . '/lib/functions/taxonomies.php' );
 
 // Metaboxes
-//include_once( BE_DIR . '/lib/functions/metaboxes.php' );
+include_once( BE_DIR . '/lib/functions/metaboxes.php' );
  
 // Widgets
 //include_once( BE_DIR . '/lib/widgets/widget-social.php' );
