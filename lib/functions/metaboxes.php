@@ -52,7 +52,7 @@ function cmb2_get_post_options( $query_args ) {
  */
 
 function be_metaboxes( $meta_boxes ) {
-
+	$prefix = 'be_';
 	$meta_boxes['related-case-studies-options'] = array(
 		'id' => $prefix . 'related-case-studies-options',
 		'title' => 'Related Case Studies Options',
